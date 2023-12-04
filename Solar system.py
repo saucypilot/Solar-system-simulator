@@ -1,8 +1,10 @@
 import pygame
 import math
+
 pygame.init()
 
-WIDTH, HEIGHT = 800, 800
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Planet Simulation")
 
@@ -20,7 +22,7 @@ DARK_BLUE = (0, 0, 139)
 class Planet:
     AU = 149.6e6 * 1000
     G = 6.67408e-11
-    SCALE = 50 / AU
+    SCALE = 20 / AU
     TIMESTEP = 24 * 3600
 
     def __init__(self, x, y, radius, color, mass):
