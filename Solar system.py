@@ -11,11 +11,16 @@ YELLOW = (255, 255, 0)
 BLUE = (100, 149, 237)
 RED = (188, 39, 50)
 DARK_GREY = (80, 78, 81)
+TAN = (245, 213, 161)
+DARK_TAN = (182, 149, 116)
+LIGHT_BLUE = (173, 216, 230)
+DARK_BLUE = (0, 0, 139)
+
 
 class Planet:
     AU = 149.6e6 * 1000
     G = 6.67408e-11
-    SCALE = 150 / AU
+    SCALE = 50 / AU
     TIMESTEP = 24 * 3600
 
     def __init__(self, x, y, radius, color, mass):
@@ -88,7 +93,19 @@ def main():
     venus = Planet(0.723 * Planet.AU, 0, 14, WHITE, 4.8685 * 10**24)
     venus.y_vel = -35.02 * 1000
 
-    planets = [sun, earth, mars, mercury, venus]
+    jupiter = Planet(5.203 * Planet.AU, 0, 30, TAN, 1.898 * 10**27)
+    jupiter.y_vel = -13.07 * 1000
+
+    saturn = Planet(9.539 * Planet.AU, 0, 25, DARK_TAN, 5.683 * 10**26)
+    saturn.y_vel = -9.68 * 1000
+
+    uranus = Planet(19.18 * Planet.AU, 0, 20, LIGHT_BLUE, 8.681 * 10**25)
+    uranus.y_vel = -6.80 * 1000
+
+    neptune = Planet(30.07 * Planet.AU, 0, 20, DARK_BLUE, 1.024 * 10**26)
+    neptune.y_vel = -5.43 * 1000
+
+    planets = [sun, earth, mars, mercury, venus, jupiter, saturn, uranus, neptune]
 
     while run:
         clock.tick(60)
