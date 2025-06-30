@@ -41,16 +41,38 @@ controls.enableRotate = true; // Enable rotation with the left mouse button
 controls.autoRotate = false; // Disable auto-rotation
 controls.autoRotateSpeed = 2.0; // Speed of auto-rotation
 controls.update();
+//Sun
+const sunSize = 1.5;
+const sunTexture = 'planet textures/sun.png'; // Make sure this texture exists
+const sun = new planets(sunSize, new THREE.Vector3(0, 0, 0), sunTexture, new THREE.Vector3(0, 1, 0), 0.004);
+scene.add(sun.getObject());
+// Earth
+const earthDistance = 7;
+const earthPivot = new THREE.Object3D();
+scene.add(earthPivot);
+const earth = new planets(1, new THREE.Vector3(earthDistance, 0, 0), 'planet textures/earth.png', new THREE.Vector3(0, 1, 0), 0.01);
+earthPivot.add(earth.getObject());
+// Moon
+const moonDistance = 2.5; 
+const moonSize = 0.27;
+const moonTexture = 'planet textures/moon.png';
+const moon = new planets(moonSize, new THREE.Vector3(moonDistance, 0, 0), moonTexture, new THREE.Vector3(0, 1, 0), 0.01);
+const moonPivot = new THREE.Object3D();
+earth.getObject().add(moonPivot);
+moonPivot.rotation.z = THREE.MathUtils.degToRad(5.1);
+moonPivot.add(moon.getObject());
+const moonOrbitSpeed = (2 * Math.PI) / 27.3 / 60;
 
-// Planet creation
-const earth = new planets(1, new THREE.Vector3(0, 0, 0), 'planet textures/earth.png', new THREE.Vector3(0, 1, 0), 0.01);
-scene.add(earth.getObject());
 
 function animate() {
     requestAnimationFrame(animate);
     
     // Update the Earth rotation
     earth.update();
+
+    //Moon orbits around the Earth
+    moonPivot.rotation.y += moonOrbitSpeed;
+    moon.getObject().rotation.y = moonPivot.rotation.y;
     
     // Render the scene
     renderer.render(scene, camera);
