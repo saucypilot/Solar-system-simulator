@@ -61,6 +61,22 @@ controls.autoRotate = false; // Disable auto-rotation
 controls.autoRotateSpeed = 2.0; // Speed of auto-rotation
 controls.update();
 
+// Mercury
+const mercuryDistance = 2;
+const mercuryPivot = new THREE.Object3D();
+scene.add(mercuryPivot);
+const mercuryOrbit = new Orbit(mercuryPivot, 0.04, mercuryDistance, scene); // Pass pivot, speed, radius, scene
+const mercury = new planets(0.4, new THREE.Vector3(mercuryDistance, 0, 0), 'planet textures/mercury.png', new THREE.Vector3(0, 1, 0), 0.01);
+mercuryPivot.add(mercury.getObject());
+
+// Venus
+const venusDistance = 4;
+const venusPivot = new THREE.Object3D();
+scene.add(venusPivot);
+const venusOrbit = new Orbit(venusPivot, 0.02, venusDistance, scene); // Pass pivot, speed, radius, scene
+const venus = new planets(0.8, new THREE.Vector3(venusDistance, 0, 0), 'planet textures/venus.png', new THREE.Vector3(0, 1, 0), 0.01);
+venusPivot.add(venus.getObject());
+
 // Earth
 const earthDistance = 7;
 const earthPivot = new THREE.Object3D();
@@ -80,20 +96,36 @@ const moonOrbit = new Orbit(moonPivot, moonOrbitSpeed, moonDistance, scene);
 const moon = new planets(moonSize, new THREE.Vector3(moonDistance, 0, 0), moonTexture, new THREE.Vector3(0, 1, 0), 0.01);
 moonPivot.add(moon.getObject());
 
+// Mars
+const marsDistance = 10;
+const marsPivot = new THREE.Object3D();
+scene.add(marsPivot);
+const marsOrbit = new Orbit(marsPivot, 0.008, marsDistance, scene); // Slower orbit speed
+const mars = new planets(0.53, new THREE.Vector3(marsDistance, 0, 0), 'planet textures/mars.png', new THREE.Vector3(0, 1, 0), 0.01);
+marsPivot.add(mars.getObject());
+
+// 
+
 // Shooting star
 const shootingStarManager = new ShootingStarManager(scene);
 
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update the Earth rotation
+    // Update the rotations
+    mercury.update();
+    venus.update();
     earth.update();
+    moon.update();
+    mars.update();
 
     // Update orbits
     earthOrbit.update();
     moonOrbit.update();
-    // Update the Moon rotation
-    moon.update();
+    marsOrbit.update();
+    venusOrbit.update();
+    mercuryOrbit.update();
+
 
     // Make the sunLight always follow the sun
     sunLight.position.copy(sun.getObject().position);
