@@ -2,6 +2,7 @@ import * as THREE from 'https://unpkg.com/three@0.155.0/build/three.module.js?mo
 import { OrbitControls } from 'https://unpkg.com/three@0.155.0/examples/jsm/controls/OrbitControls.js?module';
 import { planets } from './planets.js';
 import { Orbit } from './orbits.js';
+import { ShootingStarManager } from './shootingStars.js'
 // Creating camera first
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
@@ -79,6 +80,9 @@ const moonOrbit = new Orbit(moonPivot, moonOrbitSpeed, moonDistance, scene);
 const moon = new planets(moonSize, new THREE.Vector3(moonDistance, 0, 0), moonTexture, new THREE.Vector3(0, 1, 0), 0.01);
 moonPivot.add(moon.getObject());
 
+// Shooting star
+const shootingStarManager = new ShootingStarManager(scene);
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -88,9 +92,15 @@ function animate() {
     // Update orbits
     earthOrbit.update();
     moonOrbit.update();
+    // Update the Moon rotation
+    moon.update();
 
     // Make the sunLight always follow the sun
     sunLight.position.copy(sun.getObject().position);
+
+    // Shooting star
+    shootingStarManager.update();
+
 
     // Render the scene
     renderer.render(scene, camera);
